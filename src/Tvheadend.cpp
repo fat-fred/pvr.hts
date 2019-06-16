@@ -448,6 +448,14 @@ PVR_ERROR CTvheadend::GetRecordings ( ADDON_HANDLE handle )
       strncpy(rec.strFanartPath, recording.GetFanartImage().c_str(),
               sizeof(rec.strFanartPath) - 1);
 
+      /* Poster image */
+      strncpy(rec.strPosterPath, recording.GetPosterImage().c_str(),
+              sizeof(rec.strPosterPath) - 1);
+
+      /* Banner image */
+      strncpy(rec.strBannerPath, recording.GetBannerImage().c_str(),
+              sizeof(rec.strBannerPath) - 1);
+
       /* ID */
       snprintf(buf, sizeof(buf), "%i", recording.GetId());
       strncpy(rec.strRecordingId, buf, sizeof(rec.strRecordingId) - 1);
@@ -2482,6 +2490,10 @@ void CTvheadend::ParseRecordingAddOrUpdate ( htsmsg_t *msg, bool bAdd )
     rec.SetImage(GetImageURL(str));
   if ((str = htsmsg_get_str(msg, "fanartImage")) != NULL)
     rec.SetFanartImage(GetImageURL(str));
+  if ((str = htsmsg_get_str(msg, "PosterImage")) != NULL)
+    rec.SetPosterImage(GetImageURL(str));
+  if ((str = htsmsg_get_str(msg, "bannerImage")) != NULL)
+    rec.SetBannerImage(GetImageURL(str));
 
   if (m_conn->GetProtocol() >= 32) {
     if (rec.GetDescription().empty() && !rec.GetSubtitle().empty()) {
